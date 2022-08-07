@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CategoryRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'name' => "required|min:3|max:50|unique:categories,name,{$this->segment('3')},id"
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'name' => 'Nome da categoria',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => ':attribute deve ser preenchido',
+            'name.min' => ':attribute deve ter no mínimo 3 caracteres',
+            'name.max' => ':attribute deve ter no máximo 50 caracteres',
+            'name.unique' => ':attribute já existe'
+        ];
+    }
+}
